@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Generated PDFs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+      body { max-width: 900px; margin: 2rem auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h3>Generated Reports</h3>
+      {% if files %}
+        <ul>
+          {% for f in files %}
+            <li><a href="{{ url_for('download_file', filename=f) }}">{{ f }}</a></li>
+          {% endfor %}
+        </ul>
+        {% if output_dir is defined and output_dir %}
+          <p><small>Saved to: <code>{{ output_dir }}</code> —
+            <a target="_blank" rel="noopener" href="{{ ('file:///' + output_dir + '/') | replace('\\','/') | replace(' ', '%20') }}">Open</a>
+          </small></p>
+        {% endif %}
+      {% else %}
+        <p>No files generated.</p>
+      {% endif %}
+  {% if skipped_unknown is defined and skipped_unknown and (skipped_unknown|length) > 0 %}
+        <article>
+          <p><strong>Skipped groups with unknown taxi ID:</strong></p>
+          <ul>
+            {% for t in skipped_unknown %}<li>{{ t }}</li>{% endfor %}
+          </ul>
+          <p>Make sure your CSVs include a Taxi column with a clear value (e.g., TX68, 2510).</p>
+        </article>
+      {% endif %}
+      <p><a href="{{ url_for('index') }}">Back</a></p>
+    </main>
+  </body>
+</html>

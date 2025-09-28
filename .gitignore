@@ -1,0 +1,9 @@
+uploads/
+output/
+dist/
+build/
+Raw Data/
+*.pyc
+__pycache__/
+.venv/
+.DS_Store
